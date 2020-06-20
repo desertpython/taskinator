@@ -37,7 +37,9 @@ else {
   var completeEditTask = function(taskName, taskType, taskId) {
     console.log(taskName, taskType, taskId);
   };
+  localStorage.setItem("tasks", tasks);
   createTaskEl(taskDataObj);
+  saveTasks()
 }
 
 // not sure where this goes yet directions unclear...
@@ -99,6 +101,7 @@ var createTaskEl = function(taskDataObj) {
 
   tasks.push(taskDataObj);
   // create div to hold task info and add to list item
+
   var taskInfoEl = document.createElement("div");
   taskInfoEl.className = "task-info";
   taskInfoEl.innerHTML = "<h3 class='task-name'>" + taskDataObj.name + "</h3><span class='task-type'>" + taskDataObj.type + "</span>";
@@ -107,7 +110,7 @@ var createTaskEl = function(taskDataObj) {
   // add entire list item to list
   tasksToDoEl.appendChild(listItemEl);
   listItemEl.setAttribute("draggable", "true");
- 
+ saveTasks();
 
 }
 formEl.addEventListener("click", taskFormHandler); {
@@ -156,6 +159,7 @@ for (var i = 0; i < tasks.length; i++) {
   if (tasks[i].id !== parseInt(taskId)) {
     updatedTaskArr.push(tasks[i]);
   }
+  saveTasks();
 }
 
 // reassign tasks array to be the same as updatedTaskArr
@@ -282,6 +286,7 @@ for (var i = 0; i < tasks.length; i++) {
   if (tasks[i].id === parseInt(id)) {
     tasks[i].status = statusSelectEl.value.toLowerCase();
   }
+  saveTasks();
 }
 
   console.log(tasks);
@@ -305,3 +310,6 @@ for (var i = 0; i < tasks.length; i++) {
       status: "to do"
     }
   ];
+  var saveTasks = function() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
